@@ -196,6 +196,40 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
   .mc1,.mc2,.mc3,.mc4 { grid-column: span 1; grid-row: span 1; height: 60vw; }
   .hero-scroll { right: 1.5rem; }
 }
+
+/* ===== X-RAY SLIME TRAIL ===== */
+/* A full-screen difference-blend overlay: the trail inverts whatever page
+   content sits beneath it. Lives between content (z2) and nav (z100), so the
+   nav + custom cursor stay untouched. */
+#xray-trail {
+  position: fixed; inset: 0; z-index: 50;
+  pointer-events: none;
+  filter: url(#xrayGoo);
+  mix-blend-mode: difference;
+}
+.xray-blob { position: absolute; top: 0; left: 0; border-radius: 50%; will-change: transform; }
+
+/* ===== extra film grain across the whole page ===== */
+.grain-top {
+  position: fixed; inset: -10%; z-index: 60; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='gt'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gt)' opacity='0.6'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  animation: grainBoil 0.5s steps(1) infinite;
+}
+@keyframes grainBoil {
+  0%   { transform: translate(0, 0); }
+  12%  { transform: translate(-6%, -3%); }
+  25%  { transform: translate(4%, -8%); }
+  37%  { transform: translate(-8%, 5%); }
+  50%  { transform: translate(6%, 7%); }
+  62%  { transform: translate(-4%, -6%); }
+  75%  { transform: translate(8%, 3%); }
+  87%  { transform: translate(-6%, 8%); }
+  100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .grain-top { animation: none; } }
 </style>
 </head>
 <body>
@@ -203,6 +237,18 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
 <div class="bg"></div>
 <div class="grain"></div>
 <canvas id="cursor-canvas"></canvas>
+
+<!-- X-ray slime trail: goo filter + difference-blend overlay + extra grain -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="xrayGoo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
+      <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8"/>
+    </filter>
+  </defs>
+</svg>
+<div id="xray-trail"></div>
+<div class="grain-top"></div>
 
 <nav>
   <a href="#" class="nav-logo">John Du</a>
@@ -413,6 +459,56 @@ var obs = new IntersectionObserver(function(entries) {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
+
+/* ===== X-RAY SLIME TRAIL ===== */
+(function () {
+  // --- tune here ---
+  var TRAIL = {
+    count: 30,        
+    softness: 8,      
+    baseR: 14,        
+    gooeyness: 9,     
+    fill: '#bfeaff'   
+  };
+  // -----------------
+
+  var trail = document.getElementById('xray-trail');
+  if (!trail) return;
+  var blurNode = document.querySelector('#xrayGoo feGaussianBlur');
+  if (blurNode) blurNode.setAttribute('stdDeviation', TRAIL.gooeyness);
+
+  var N = TRAIL.count, baseR = TRAIL.baseR;
+  var ease = 0.30, k = 0.55 - (TRAIL.softness - 1) * (0.45 / 9);
+  var tx = -300, ty = -300, pts = [];
+
+  for (var i = 0; i < N; i++) {
+    var d = document.createElement('div');
+    d.className = 'xray-blob';
+    var t = N > 1 ? i / (N - 1) : 0;
+    var r = baseR * (1 - 0.72 * t) + 3;
+    d.style.width = d.style.height = (r * 2) + 'px';
+    d.style.background = TRAIL.fill;
+    trail.appendChild(d);
+    pts.push({ x: tx, y: ty, el: d, r: r });
+  }
+
+  window.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+
+  function loop() {
+    pts[0].x += (tx - pts[0].x) * ease;
+    pts[0].y += (ty - pts[0].y) * ease;
+    for (var i = 1; i < N; i++) {
+      pts[i].x += (pts[i - 1].x - pts[i].x) * k;
+      pts[i].y += (pts[i - 1].y - pts[i].y) * k;
+    }
+    for (var j = 0; j < N; j++) {
+      var p = pts[j];
+      p.el.style.transform = 'translate(' + (p.x - p.r) + 'px,' + (p.y - p.r) + 'px)';
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
 </script>
 
 </body>
