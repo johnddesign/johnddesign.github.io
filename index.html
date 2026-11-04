@@ -242,7 +242,14 @@ nav {
 .mc-info-sub { color: #ffffffc9; }
 .works-label { color: #625c55; font-size: .75rem; }
 .cat-portrait { background: #d4cdc3; isolation: isolate; }
-.cat-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: url(#catChromatic); transform: scale(1.025); }
+ .cat-silhouette { width: 100%; height: 100%; display: block; overflow: visible; }
+.cat-breathe { transform-box: view-box; transform-origin: 200px 470px; animation: catBreathe 4.8s ease-in-out infinite; }
+.cat-tail { transform-box: view-box; transform-origin: 253px 439px; animation: catTail 6s ease-in-out infinite; }
+.cat-head { transform-box: view-box; transform-origin: 200px 242px; animation: catHead 9s ease-in-out infinite; }
+@keyframes catBreathe { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.012,1.018); } }
+@keyframes catTail { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(7deg); } }
+@keyframes catHead { 0%,65%,100% { transform: rotate(0); } 78%,88% { transform: rotate(-3deg); } }
+.cat-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.5'/%3E%3C/svg%3E"); mix-blend-mode: multiply; }
 .about-img-wrap.cat-portrait { aspect-ratio: 3/4; }
 html { scroll-padding-top: 110px; }
 @media (max-width: 640px) {
@@ -256,7 +263,7 @@ html { scroll-padding-top: 110px; }
   .hero-img { padding: 145px 0 80px; }
   .hero .liquid-glass-btn { bottom: 30px; }
 }
-@media (prefers-reduced-motion: reduce) { .cat-img { filter: none; } }
+@media (prefers-reduced-motion: reduce) { .cat-breathe, .cat-tail, .cat-head { animation: none; } }
 
 </style>
 </head>
@@ -269,12 +276,21 @@ html { scroll-padding-top: 110px; }
 <!-- X-ray slime trail: goo filter + difference-blend overlay + extra grain -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <filter id="catChromatic" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
-      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red"/>
-      <feOffset id="catRed" in="red" dx="0.7" dy="0" result="redShift"/>
-      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" result="cyan"/>
-      <feOffset id="catCyan" in="cyan" dx="-0.7" dy="0" result="cyanShift"/>
-      <feBlend in="redShift" in2="cyanShift" mode="screen"/>
+    <filter id="catChromatic" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feFlood flood-color="#da706e" result="red"/>
+      <feComposite in="red" in2="SourceAlpha" operator="in" result="redShape"/>
+      <feOffset id="catRed" in="redShape" dx="0.7" dy="0" result="redShift"/>
+      <feFlood flood-color="#57a9b1" result="cyan"/>
+      <feComposite in="cyan" in2="SourceAlpha" operator="in" result="cyanShape"/>
+      <feOffset id="catCyan" in="cyanShape" dx="-0.7" dy="0" result="cyanShift"/>
+      <feMerge><feMergeNode in="redShift"/><feMergeNode in="cyanShift"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="catFilm" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" seed="12" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer>
+      <feComposite in2="SourceGraphic" operator="in" result="grain"/>
+      <feBlend in="SourceGraphic" in2="grain" mode="screen"/>
     </filter>
     <filter id="xrayGoo">
       <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
@@ -356,7 +372,22 @@ html { scroll-padding-top: 110px; }
   <section class="about" id="about">
     <div class="about-left fi">
       <div class="about-img-wrap cat-portrait">
-        <img class="cat-img" src="assets/ink-cat.jpg" alt="A black kitten with amber eyes, rendered with film grain and subtle color fringes" loading="lazy" width="1086" height="1448">
+        <svg class="cat-silhouette" viewBox="0 0 400 540" role="img" aria-labelledby="catTitle catDescription">
+          <title id="catTitle">Ink cat</title>
+          <desc id="catDescription">A solid ink-black cat silhouette without facial details. Its tail sways gently and its body breathes, with film grain and mouse-responsive red and cyan edges.</desc>
+          <g filter="url(#catChromatic)">
+            <g fill="#17191c" filter="url(#catFilm)">
+              <path class="cat-tail" d="M245 447 C309 467 353 423 335 380 C329 366 311 367 314 383 C325 418 295 437 258 426 Z"/>
+              <g class="cat-breathe">
+                <path d="M163 244 C145 276 147 308 131 343 C111 384 111 426 126 448 C137 464 167 470 201 470 C237 470 268 466 279 448 C292 425 280 383 262 345 C247 312 251 277 231 244 Z"/>
+                <path d="M145 444 C133 443 121 452 125 464 C131 476 165 474 186 469 L202 452 L217 469 C242 475 272 475 278 464 C282 452 270 445 255 444 Z"/>
+                <g class="cat-head">
+                  <path d="M139 197 L132 116 Q132 107 140 112 L179 149 Q199 143 221 150 L259 113 Q266 107 266 118 L258 199 C264 219 250 242 232 252 Q201 269 168 253 C145 242 131 220 139 197 Z"/>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>
       </div>
       <div class="about-name">John Du</div>
       <div class="about-role">Industrial Designer · Based in Champaign, IL</div>
@@ -529,4 +560,5 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
 
 </body>
 </html>
+
 
