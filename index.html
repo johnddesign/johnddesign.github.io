@@ -218,7 +218,7 @@ body { background: #eeeae5; }
 nav {
   top: 20px; left: 50%; right: auto; transform: translateX(-50%);
   width: min(640px, calc(100% - 32px)); height: 64px; padding: 0 14px 0 24px;
-  gap: 24px; border-radius: 24px; background: rgba(246,244,240,.87);
+  gap: 24px; border-radius: 24px; background: rgba(246,244,240,.59);
   backdrop-filter: blur(30px) saturate(.65); -webkit-backdrop-filter: blur(30px) saturate(.65);
   border: 1px solid rgba(255,255,255,.85);
   box-shadow: 0 8px 30px rgba(30,26,22,.08), inset 0 1px 0 #fff;
@@ -242,14 +242,7 @@ nav {
 .mc-info-sub { color: #ffffffc9; }
 .works-label { color: #625c55; font-size: .75rem; }
 .cat-portrait { background: #d4cdc3; isolation: isolate; }
- .cat-silhouette { width: 100%; height: 100%; display: block; overflow: visible; }
-.cat-breathe { transform-box: view-box; transform-origin: 200px 470px; animation: catBreathe 4.8s ease-in-out infinite; }
-.cat-tail { transform-box: view-box; transform-origin: 253px 439px; animation: catTail 6s ease-in-out infinite; }
-.cat-head { transform-box: view-box; transform-origin: 200px 242px; animation: catHead 9s ease-in-out infinite; }
-@keyframes catBreathe { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.012,1.018); } }
-@keyframes catTail { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(7deg); } }
-@keyframes catHead { 0%,65%,100% { transform: rotate(0); } 78%,88% { transform: rotate(-3deg); } }
-.cat-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.5'/%3E%3C/svg%3E"); mix-blend-mode: multiply; }
+.cat-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .34; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.5'/%3E%3C/svg%3E"); mix-blend-mode: soft-light; }
 .about-img-wrap.cat-portrait { aspect-ratio: 3/4; }
 html { scroll-padding-top: 110px; }
 @media (max-width: 640px) {
@@ -265,6 +258,17 @@ html { scroll-padding-top: 110px; }
 }
 @media (prefers-reduced-motion: reduce) { .cat-breathe, .cat-tail, .cat-head { animation: none; } }
 
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.hero-pattern { position: absolute; inset: 0; z-index: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: .08em; font-family: var(--sans); font-size: clamp(58px, 8.5vw, 150px); line-height: 1; font-weight: 1000; letter-spacing: -.055em; color: #cfc7bd; pointer-events: none; }
+.hero-pattern span { display: block; flex: 0 0 auto; white-space: nowrap; transform: translateX(-6%); }
+.hero-pattern span:nth-child(even) { transform: translateX(-20%); }
+.mascot-portrait { background: #1e1e1e; }
+.about-img-wrap.mascot-portrait { aspect-ratio: 505/587; }
+.mascot-art { display: block; width: 100%; height: 100%; object-fit: contain; filter: url(#catChromatic); animation: mascotFloat 6s ease-in-out infinite; }
+@keyframes mascotFloat { 0%,100% { transform: translateY(0) scale(.94); } 50% { transform: translateY(-6px) scale(.947); } }
+@media (prefers-reduced-motion: reduce) { .mascot-art { animation: none; filter: none; transform: scale(.94); } }
+
 </style>
 </head>
 <body>
@@ -277,20 +281,14 @@ html { scroll-padding-top: 110px; }
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <filter id="catChromatic" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-      <feFlood flood-color="#da706e" result="red"/>
-      <feComposite in="red" in2="SourceAlpha" operator="in" result="redShape"/>
-      <feOffset id="catRed" in="redShape" dx="0.7" dy="0" result="redShift"/>
-      <feFlood flood-color="#57a9b1" result="cyan"/>
-      <feComposite in="cyan" in2="SourceAlpha" operator="in" result="cyanShape"/>
-      <feOffset id="catCyan" in="cyanShape" dx="-0.7" dy="0" result="cyanShift"/>
-      <feMerge><feMergeNode in="redShift"/><feMergeNode in="cyanShift"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="catFilm" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" seed="12" result="noise"/>
-      <feColorMatrix in="noise" type="saturate" values="0"/>
-      <feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer>
-      <feComposite in2="SourceGraphic" operator="in" result="grain"/>
-      <feBlend in="SourceGraphic" in2="grain" mode="screen"/>
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red"/>
+      <feOffset id="catRed" in="red" dx="1.8" dy="0" result="redShift"/>
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" result="cyan"/>
+      <feOffset id="catCyan" in="cyan" dx="-1.8" dy="0" result="cyanShift"/>
+      <feBlend in="redShift" in2="cyanShift" mode="screen" result="split"/>
+      <feGaussianBlur in="split" stdDeviation="2.2" result="glow"/>
+      <feComponentTransfer in="glow" result="softGlow"><feFuncA type="linear" slope=".3"/></feComponentTransfer>
+      <feMerge><feMergeNode in="softGlow"/><feMergeNode in="split"/></feMerge>
     </filter>
     <filter id="xrayGoo">
       <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
@@ -318,11 +316,8 @@ html { scroll-padding-top: 110px; }
       <img src="assets/CU_FrontView92319.png" class="hero-img" alt="CatchUp hearing assist wearable and charging case">
       <p class="hero-intro">John Du — Industrial &amp; Interaction Designer</p>
       <div class="hero-title-wrap">
-        <h1 class="hero-title">
-          Industrial Designer.<br>
-          UI/UX Designer.<br>
-          Artist.
-        </h1>
+        <h1 class="sr-only">Industrial Designer. UI/UX Designer. Artist.</h1>
+        <div class="hero-pattern" aria-hidden="true"><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span><span>INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. INDUSTRIAL DESIGNER. UI/UX DESIGNER. ARTIST. </span></div>
         <a href="#works" class="liquid-glass-btn">
           View Works
           <svg class="lg-arrow" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -371,23 +366,8 @@ html { scroll-padding-top: 110px; }
 
   <section class="about" id="about">
     <div class="about-left fi">
-      <div class="about-img-wrap cat-portrait">
-        <svg class="cat-silhouette" viewBox="0 0 400 540" role="img" aria-labelledby="catTitle catDescription">
-          <title id="catTitle">Ink cat</title>
-          <desc id="catDescription">A solid ink-black cat silhouette without facial details. Its tail sways gently and its body breathes, with film grain and mouse-responsive red and cyan edges.</desc>
-          <g filter="url(#catChromatic)">
-            <g fill="#17191c" filter="url(#catFilm)">
-              <path class="cat-tail" d="M245 447 C309 467 353 423 335 380 C329 366 311 367 314 383 C325 418 295 437 258 426 Z"/>
-              <g class="cat-breathe">
-                <path d="M163 244 C145 276 147 308 131 343 C111 384 111 426 126 448 C137 464 167 470 201 470 C237 470 268 466 279 448 C292 425 280 383 262 345 C247 312 251 277 231 244 Z"/>
-                <path d="M145 444 C133 443 121 452 125 464 C131 476 165 474 186 469 L202 452 L217 469 C242 475 272 475 278 464 C282 452 270 445 255 444 Z"/>
-                <g class="cat-head">
-                  <path d="M139 197 L132 116 Q132 107 140 112 L179 149 Q199 143 221 150 L259 113 Q266 107 266 118 L258 199 C264 219 250 242 232 252 Q201 269 168 253 C145 242 131 220 139 197 Z"/>
-                </g>
-              </g>
-            </g>
-          </g>
-        </svg>
+      <div class="about-img-wrap cat-portrait mascot-portrait">
+        <img class="mascot-art" src="assets/blue-mascot.png" alt="John's blue character with large layered eyes, floating hands and a rounded body" width="505" height="587" loading="lazy">
       </div>
       <div class="about-name">John Du</div>
       <div class="about-role">Industrial Designer · Based in Champaign, IL</div>
@@ -518,8 +498,8 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
         if (now - dwellStart >= 500) { following = true; resetDwell(); }
       } else dwellStart = null;
     }
-    tx = following ? pointer.x : home.x + Math.sin(now * 0.0013) * 3;
-    ty = following ? pointer.y : home.y + Math.sin(now * 0.0026) * 2;
+    tx = following ? pointer.x : home.x + Math.sin(now * 0.0013) * 10;
+    ty = following ? pointer.y : home.y + Math.sin(now * 0.0026) * 6;
     pts[0].x += (tx - pts[0].x) * ease;
     pts[0].y += (ty - pts[0].y) * ease;
     for (var i = 1; i < N; i++) {
@@ -540,7 +520,7 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
   var portrait = document.querySelector('.cat-portrait');
   var red = document.getElementById('catRed'), cyan = document.getElementById('catCyan');
   var reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  var pending = false, x = .7, y = 0;
+  var pending = false, x = 1.8, y = 0;
   function paint() {
     pending = false;
     red.setAttribute('dx', x); red.setAttribute('dy', y);
@@ -550,15 +530,16 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
   portrait.addEventListener('pointermove', function (e) {
     if (reduced.matches || e.pointerType === 'touch') return;
     var b = portrait.getBoundingClientRect();
-    x = .7 + ((e.clientX - b.left) / b.width - .5) * 9;
+    x = 1.8 + ((e.clientX - b.left) / b.width - .5) * 9;
     y = ((e.clientY - b.top) / b.height - .5) * 4;
     schedule();
   });
-  portrait.addEventListener('pointerleave', function () { x = .7; y = 0; schedule(); });
+  portrait.addEventListener('pointerleave', function () { x = 1.8; y = 0; schedule(); });
 })();
 </script>
 
 </body>
 </html>
+
 
 
