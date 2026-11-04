@@ -6,7 +6,7 @@
 <title>John Du — Industrial Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,700&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -23,11 +23,7 @@ body {
   min-height: 100vh;
   color: var(--t1);
   overflow-x: hidden;
-  cursor: none;
-}
-#cursor-canvas {
-  position: fixed; inset: 0; z-index: 9999;
-  pointer-events: none; width: 100%; height: 100%;
+  cursor: auto;
 }
 .bg {
   position: fixed; inset: 0; z-index: 0;
@@ -35,9 +31,9 @@ body {
     radial-gradient(ellipse 80% 60% at 20% 10%,  rgba(220,210,255,0.72) 0%, transparent 55%),
     radial-gradient(ellipse 60% 70% at 80% 0%,   rgba(200,235,255,0.56) 0%, transparent 50%),
     radial-gradient(ellipse 50% 50% at 50% 50%,  rgba(255,235,245,0.50) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 10% 80%,  rgba(210,255,240,0.46) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 80%,  rgba(230,218,206,0.35) 0%, transparent 55%),
     radial-gradient(ellipse 60% 60% at 90% 85%,  rgba(255,215,235,0.50) 0%, transparent 55%),
-    linear-gradient(160deg, #ede8f8 0%, #f5f0ff 30%, #edf5ff 55%, #f8f0f5 80%, #f0f8f0 100%);
+    linear-gradient(160deg, #ede8f8 0%, #f5f0ff 30%, #edf5ff 55%, #f8f0f5 80%, #eee8e2 100%);
   animation: pearl 18s ease-in-out infinite alternate;
 }
 @keyframes pearl {
@@ -64,18 +60,16 @@ nav {
 .nav-right { display: flex; align-items: center; gap: 2.5rem; }
 .nav-right a { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t2); text-decoration: none; transition: color .2s; }
 .nav-right a:hover { color: var(--t1); }
-.nav-index { font-size: 0.6rem; color: var(--t3); letter-spacing: 0.06em; }
 .page { position: relative; z-index: 2; }
 
 /* HERO */
-.hero { height: 100vh; display: grid; grid-template-columns: 1fr 320px; padding-top: 56px; position: relative; }
-.hero-image-wrap { position: relative; overflow: hidden; }
-.hero-img { width: 100%; height: 100%; display: block; object-fit: cover; background: linear-gradient(160deg, #d8d2ee 0%, #c8d8e8 40%, #dde8e0 100%); transition: transform 8s cubic-bezier(0.23,1,0.32,1); }
+.hero { height: 100svh; min-height: 580px; display: grid; grid-template-columns: 1fr; padding-top: 56px; position: relative; }
+.hero-image-wrap { position: relative; overflow: hidden; background: #e9e3dc; isolation: isolate; }
+.hero-img { width: 100%; height: 100%; display: block; object-fit: cover; mix-blend-mode: multiply; transition: transform 8s cubic-bezier(0.23,1,0.32,1); }
 .hero:hover .hero-img { transform: scale(1.03); }
-.hero-label { position: absolute; top: 2rem; left: 2rem; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26,24,32,0.4); }
-.hero-title-wrap { position: absolute; bottom: 3rem; left: 2rem; max-width: 80%; }
-.hero-title { font-family: var(--sans); font-size: clamp(2.4rem, 5.5vw, 6rem); font-weight: 300; line-height: 1.08; letter-spacing: -0.035em; color: var(--t1); mix-blend-mode: multiply; }
-.hero-title em { font-style: italic; font-weight: 300; color: rgba(100,85,160,0.78); }
+.hero-title-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 5vw 5rem; }
+.hero-title { font-family: var(--sans); font-size: clamp(2.4rem, 6.2vw, 7rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.045em; color: #fff; mix-blend-mode: difference; }
+.hero-title em { font-style: italic; font-weight: 700; color: inherit; }
 
 /* Liquid Glass Button */
 .liquid-glass-btn {
@@ -90,7 +84,7 @@ nav {
   border: 1px solid rgba(255,255,255,0.82);
   box-shadow: 0 0 0 0.5px rgba(180,160,220,0.22), inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(200,185,240,0.22), 0 4px 24px rgba(160,140,220,0.13), 0 1px 4px rgba(160,140,220,0.08);
   transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
-  overflow: hidden; cursor: none;
+  overflow: hidden; cursor: pointer;
 }
 .liquid-glass-btn::before {
   content: ''; position: absolute; inset: 0; border-radius: 100px;
@@ -104,33 +98,16 @@ nav {
 .lg-arrow { width: 13px; height: 13px; opacity: 0.55; transition: transform 0.3s, opacity 0.3s; flex-shrink: 0; }
 .liquid-glass-btn:hover .lg-arrow { transform: translate(2px,-2px); opacity: 0.9; }
 
-/* Hero panel */
-.hero-panel { display: flex; flex-direction: column; justify-content: space-between; padding: 2rem 2rem 3rem; border-left: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.10); backdrop-filter: blur(28px) saturate(1.6); -webkit-backdrop-filter: blur(28px) saturate(1.6); }
-.hero-num { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--t3); text-transform: uppercase; margin-bottom: 0.5rem; }
-.hero-panel h2 { font-family: var(--sans); font-size: 1.2rem; font-weight: 400; line-height: 1.4; color: var(--t1); margin-bottom: 1.25rem; letter-spacing: -0.02em; }
-.hero-panel p { font-size: 0.7rem; line-height: 1.9; color: var(--t2); letter-spacing: 0.03em; }
-.hero-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); margin-bottom: 1.5rem; }
-.status-dot { width: 5px; height: 5px; border-radius: 50%; background: #7ab88a; animation: blink 2.5s ease-in-out infinite; }
-@keyframes blink { 0%,100%{opacity:1;}50%{opacity:0.3;} }
-.hero-cta { display: block; text-align: center; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--t1); text-decoration: none; padding: 0.9em 0; background: rgba(255,255,255,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); border-radius: 2px; transition: background .3s, border-color .3s; }
-.hero-cta:hover { background: rgba(255,255,255,0.38); border-color: rgba(255,255,255,0.9); }
-.hero-scroll { position: absolute; bottom: 2.5rem; right: calc(320px + 2rem); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.scroll-track { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, rgba(26,24,32,0.28)); position: relative; overflow: hidden; }
-.scroll-tick { position: absolute; top: -8px; left: 0; width: 1px; height: 8px; background: var(--t1); animation: scrollDown 2s ease-in-out infinite; }
-@keyframes scrollDown { 0%{top:-8px;opacity:1;}100%{top:48px;opacity:0;} }
-.scroll-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--t3); writing-mode: vertical-rl; }
-
 /* WORKS */
 .works { padding: 6rem 3vw; }
 .works-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 3rem; }
 .works-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--t3); }
-.works-count  { font-size: 0.6rem; letter-spacing: 0.12em; color: var(--t3); }
 .mosaic { display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: 44vw 38vw; gap: 0.75rem; }
 .mc1 { grid-column: 1 / 12;  grid-row: 1 / 2; }
 .mc2 { grid-column: 12 / 21; grid-row: 1 / 2; }
 .mc3 { grid-column: 1 / 9;   grid-row: 2 / 3; }
 .mc4 { grid-column: 9 / 21;  grid-row: 2 / 3; }
-.mc { position: relative; overflow: hidden; border-radius: 4px; cursor: none; text-decoration: none; color: inherit; }
+.mc { position: relative; overflow: hidden; border-radius: 4px; cursor: pointer; text-decoration: none; color: inherit; }
 .mc:hover .mc-img-fill { transform: scale(1.06); }
 .mc:hover .mc-info { opacity: 1; transform: translateY(0); }
 .mc-img-fill { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.23,1,0.32,1); }
@@ -141,7 +118,6 @@ nav {
 .mc-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem 1.4rem 1.4rem; background: linear-gradient(to top, rgba(20,18,30,0.62), transparent); opacity: 0; transform: translateY(6px); transition: opacity 0.35s, transform 0.35s cubic-bezier(0.23,1,0.32,1); }
 .mc-info-title { font-family: var(--sans); font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.92); line-height: 1.25; margin-bottom: 0.25rem; letter-spacing: -0.02em; }
 .mc-info-sub { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
-.mc-idx { position: absolute; top: 1rem; right: 1rem; font-size: 0.58rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); padding: 0.25em 0.6em; border-radius: 2px; }
 
 /* ABOUT */
 .about { padding: 6rem 3vw 8rem; display: grid; grid-template-columns: 44% 1fr; gap: 4vw; align-items: start; }
@@ -180,8 +156,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
 /* Responsive */
 @media (max-width: 1024px) {
   .hero { grid-template-columns: 1fr; }
-  .hero-panel { display:none; }
-  .hero-scroll { right: 2rem; }
   .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 50vw 50vw; }
   .mc1,.mc2,.mc3,.mc4 { grid-column: span 1; grid-row: span 1; }
   .mc1 { grid-column: span 2; }
@@ -190,11 +164,10 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
   .about-img-wrap { aspect-ratio: 4/3; }
 }
 @media (max-width: 640px) {
-  .hero-title { font-size: 2.2rem; }
+  .hero-title { font-family: var(--sans); font-size: clamp(2.4rem, 6.2vw, 7rem); font-weight: 700; line-height: 1.04; letter-spacing: -0.045em; color: #fff; mix-blend-mode: difference; }
   nav, .works, .about { padding-left:5vw; padding-right:5vw; }
   .mosaic { grid-template-columns: 1fr; grid-template-rows: auto; }
   .mc1,.mc2,.mc3,.mc4 { grid-column: span 1; grid-row: span 1; height: 60vw; }
-  .hero-scroll { right: 1.5rem; }
 }
 
 /* ===== X-RAY SLIME TRAIL ===== */
@@ -230,13 +203,19 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
   100% { transform: translate(0, 0); }
 }
 @media (prefers-reduced-motion: reduce) { .grain-top { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .fi { opacity: 1; transform: none; }
+}
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 </style>
 </head>
 <body>
 
 <div class="bg"></div>
 <div class="grain"></div>
-<canvas id="cursor-canvas"></canvas>
+
 
 <!-- X-ray slime trail: goo filter + difference-blend overlay + extra grain -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -253,7 +232,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
 <nav>
   <a href="#" class="nav-logo">John Du</a>
   <div class="nav-right">
-    <span class="nav-index">00 — 04</span>
     <a href="#works">Works</a>
     <a href="#about">About</a>
     <a href="mailto:hello@johnd.com">Contact</a>
@@ -262,10 +240,9 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
 
 <div class="page">
 
-  <section class="hero">
+  <section class="hero" aria-label="Introduction">
     <div class="hero-image-wrap">
-      <img src="assets/CU_FrontView92319.png" class="hero-img" alt="Hero">
-      <div class="hero-label">Portfolio — 2026</div>
+      <img src="assets/CU_FrontView92319.png" class="hero-img" alt="CatchUp hearing assist wearable and charging case">
       <div class="hero-title-wrap">
         <h1 class="hero-title">
           Industrial Designer.<br>
@@ -280,32 +257,15 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
         </a>
       </div>
     </div>
-    <aside class="hero-panel">
-      <div>
-        <div class="hero-num">01 / OVERVIEW</div>
-        <h2>John Du<br>Design Portfolio</h2>
-        <p>Objects, interfaces, and concepts designed at the intersection of material, function, and the human experience of things.</p>
-      </div>
-      <div>
-        <div class="hero-status"><div class="status-dot"></div>Available for collaboration</div>
-        <a href="#works" class="hero-cta">Enter Portfolio</a>
-      </div>
-    </aside>
-    <div class="hero-scroll">
-      <div class="scroll-track"><div class="scroll-tick"></div></div>
-      <span class="scroll-label">Scroll</span>
-    </div>
   </section>
 
   <section class="works" id="works">
     <div class="works-header fi">
-      <span class="works-label">Selected Projects · 2022–2026</span>
-      <span class="works-count">04 works</span>
+      <span class="works-label">Selected Projects</span>
     </div>
     <div class="mosaic">
       <a href="#" class="mc mc1 fi">
         <img src="assets/LumaS_R091520.png" class="mc-img-fill" alt="Project 1">
-        <span class="mc-idx">01</span>
         <div class="mc-info">
           <div class="mc-info-title">LumaSeat</div>
           <div class="mc-info-sub">Category · Multi-functional Childseat</div>
@@ -313,7 +273,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
       </a>
       <a href="#" class="mc mc2 fi d1">
         <div class="mc-img-fill ph2"></div>
-        <span class="mc-idx">02</span>
         <div class="mc-info">
           <div class="mc-info-title">ModuSpace</div>
           <div class="mc-info-sub">Category · Modular Furniture</div>
@@ -321,7 +280,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
       </a>
       <a href="#" class="mc mc3 fi d1">
         <img src="assets/CU_FrontView92319.png" class="mc-img-fill" alt="Project 3">
-        <span class="mc-idx">03</span>
         <div class="mc-info">
           <div class="mc-info-title">CatchUp</div>
           <div class="mc-info-sub">Category · Wearable Technology</div>
@@ -329,7 +287,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
       </a>
       <a href="#" class="mc mc4 fi d2">
         <div class="mc-img-fill ph4"></div>
-        <span class="mc-idx">04</span>
         <div class="mc-info">
           <div class="mc-info-title">Taper</div>
           <div class="mc-info-sub">Category · Badminton Handlegrip</div>
@@ -349,13 +306,13 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
     </div>
     <div class="about-right">
       <div class="about-section fi">
-        <span class="about-section-label">01 — Background</span>
+        <span class="about-section-label">Background</span>
         <p>I design objects that are honest about their making. My work sits between industrial production and craft — things that could be made, that want to be touched, that age well.</p>
         <br>
         <p>Currently based in Champaign, working across product development, concept design, and material research. Available for studios, brands, and independent commissions.</p>
       </div>
       <div class="about-section fi d1">
-        <span class="about-section-label">02 — Expertise</span>
+        <span class="about-section-label">Expertise</span>
         <ul class="exp-list">
           <li>Product Design <span>Primary</span></li>
           <li>Furniture &amp; Object <span>Primary</span></li>
@@ -366,7 +323,7 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
         </ul>
       </div>
       <div class="about-section fi d2">
-        <span class="about-section-label">03 — Contact</span>
+        <span class="about-section-label">Contact</span>
         <div class="contact-glass">
           <a href="mailto:hello@johnd.com">john_du1527@hotmail.com</a>
           <a href="#">LinkedIn</a>
@@ -385,73 +342,6 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
 </footer>
 
 <script>
-var cvs = document.getElementById('cursor-canvas');
-var c = cvs.getContext('2d');
-
-function resize() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
-resize();
-window.addEventListener('resize', resize);
-
-var mx = -200, my = -200, lagX = -200, lagY = -200;
-var curDotR = 4, curRingR = 18, hover = false;
-
-document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
-
-document.querySelectorAll('a, .mc, .liquid-glass-btn').forEach(function(el) {
-  el.addEventListener('mouseenter', function() { hover = true; });
-  el.addEventListener('mouseleave', function() { hover = false; });
-});
-
-function drawCursor() {
-  c.clearRect(0, 0, cvs.width, cvs.height);
-
-  lagX += (mx - lagX) * 0.10;
-  lagY += (my - lagY) * 0.10;
-
-  var dotTarget  = hover ? 5.5 : 4.0;
-  var ringTarget = hover ? 26  : 18;
-  curDotR  += (dotTarget  - curDotR)  * 0.14;
-  curRingR += (ringTarget - curRingR) * 0.14;
-
-  /* outer ring */
-  c.beginPath();
-  c.arc(lagX, lagY, curRingR, 0, Math.PI * 2);
-  c.strokeStyle = hover ? 'rgba(22,20,30,0.30)' : 'rgba(22,20,30,0.22)';
-  c.lineWidth = 0.75;
-  c.stroke();
-
-  /* dot halo — frosted bleed */
-  var dh = c.createRadialGradient(mx, my, curDotR * 0.4, mx, my, curDotR * 2.4);
-  dh.addColorStop(0, 'rgba(22,20,30,0.10)');
-  dh.addColorStop(1, 'rgba(22,20,30,0.00)');
-  c.beginPath();
-  c.arc(mx, my, curDotR * 2.4, 0, Math.PI * 2);
-  c.fillStyle = dh;
-  c.fill();
-
-  /* dot core */
-  var dc = c.createRadialGradient(mx - curDotR * 0.25, my - curDotR * 0.28, 0, mx, my, curDotR);
-  dc.addColorStop(0,   'rgba(30,26,40,0.92)');
-  dc.addColorStop(0.6, 'rgba(26,22,36,0.84)');
-  dc.addColorStop(1,   'rgba(22,20,30,0.68)');
-  c.beginPath();
-  c.arc(mx, my, curDotR, 0, Math.PI * 2);
-  c.fillStyle = dc;
-  c.fill();
-
-  /* specular catch */
-  var sp = c.createRadialGradient(mx - curDotR * 0.38, my - curDotR * 0.42, 0, mx, my, curDotR * 0.72);
-  sp.addColorStop(0, 'rgba(255,255,255,0.24)');
-  sp.addColorStop(1, 'rgba(255,255,255,0.00)');
-  c.beginPath();
-  c.arc(mx, my, curDotR, 0, Math.PI * 2);
-  c.fillStyle = sp;
-  c.fill();
-
-  requestAnimationFrame(drawCursor);
-}
-drawCursor();
-
 /* scroll reveal */
 var obs = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
@@ -468,7 +358,7 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
     softness: 8,      
     baseR: 14,        
     gooeyness: 9,     
-    fill: '#bfeaff'   
+    fill: '#e4ddff'
   };
   // -----------------
 
@@ -479,7 +369,25 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
 
   var N = TRAIL.count, baseR = TRAIL.baseR;
   var ease = 0.30, k = 0.55 - (TRAIL.softness - 1) * (0.45 / 9);
-  var tx = -300, ty = -300, pts = [];
+  var home = { x: innerWidth * 0.5, y: innerHeight * 0.82 };
+  var tx = home.x, ty = home.y, pts = [];
+  var pointer = { x: -1000, y: -1000 };
+  var following = false, dwellStart = null, releaseStart = null;
+  var armed = false;
+  var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  if (!canHover || reducedMotion.matches) { trail.hidden = true; return; }
+  function resetDwell() { dwellStart = releaseStart = null; }
+  function park() { following = false; armed = false; resetDwell(); }
+  window.addEventListener('resize', function () {
+    home.x = innerWidth * 0.5; home.y = innerHeight * 0.82; park();
+  });
+  window.addEventListener('blur', park);
+  document.documentElement.addEventListener('pointerleave', function () {
+    pointer.x = pointer.y = -1000; park();
+  });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) park(); });
+  reducedMotion.addEventListener('change', function () { trail.hidden = reducedMotion.matches; park(); });
 
   for (var i = 0; i < N; i++) {
     var d = document.createElement('div');
@@ -492,9 +400,32 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
     pts.push({ x: tx, y: ty, el: d, r: r });
   }
 
-  window.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  window.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
+    pointer.x = e.clientX; pointer.y = e.clientY;
+  }, { passive: true });
 
-  function loop() {
+  function loop(now) {
+    now = now || 0;
+    var inHome = Math.hypot(pointer.x - home.x, pointer.y - home.y) <= 68;
+    if (following) {
+      // Leave the pickup area before a return can release the trail.
+      if (!inHome) armed = true;
+      if (armed && inHome) {
+        if (releaseStart === null) releaseStart = now;
+        if (now - releaseStart >= 500) park();
+      } else releaseStart = null;
+    } else {
+      var overTrail = pts.some(function (p) {
+        return Math.hypot(pointer.x - p.x, pointer.y - p.y) <= p.r + 12;
+      });
+      if (overTrail) {
+        if (dwellStart === null) dwellStart = now;
+        if (now - dwellStart >= 500) { following = true; resetDwell(); }
+      } else dwellStart = null;
+    }
+    tx = following ? pointer.x : home.x + Math.sin(now * 0.0013) * 25;
+    ty = following ? pointer.y : home.y + Math.sin(now * 0.0026) * 12;
     pts[0].x += (tx - pts[0].x) * ease;
     pts[0].y += (ty - pts[0].y) * ease;
     for (var i = 1; i < N; i++) {
