@@ -6,7 +6,7 @@
 <title>John Du — Industrial Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,700&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,1000;1,9..40,700&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -209,6 +209,55 @@ footer { position:relative; z-index:2; padding:2rem 3vw; border-top:1px solid rg
   .fi { opacity: 1; transform: none; }
 }
 a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+
+/* Neutral floating navigation and product-first hero */
+body { background: #eeeae5; }
+.bg { background: linear-gradient(145deg, #f1eeea, #e8e4df); animation: none; }
+.grain { opacity: .18; }
+.grain-top { opacity: .08; animation: none; }
+nav {
+  top: 20px; left: 50%; right: auto; transform: translateX(-50%);
+  width: min(640px, calc(100% - 32px)); height: 64px; padding: 0 14px 0 24px;
+  gap: 24px; border-radius: 24px; background: rgba(246,244,240,.87);
+  backdrop-filter: blur(30px) saturate(.65); -webkit-backdrop-filter: blur(30px) saturate(.65);
+  border: 1px solid rgba(255,255,255,.85);
+  box-shadow: 0 8px 30px rgba(30,26,22,.08), inset 0 1px 0 #fff;
+}
+.nav-logo { font-weight: 700; white-space: nowrap; }
+.nav-right { gap: 26px; margin-left: auto; }
+.nav-right a { font-family: var(--sans); font-size: .85rem; letter-spacing: .01em; text-transform: none; color: #4f4c48; }
+.orb-dock { flex: 0 0 42px; height: 42px; border-radius: 50%; position: relative; background: #dedbd6; box-shadow: inset 0 2px 5px #00000016, 0 1px 0 #ffffffb3; }
+.orb-dock span { position: absolute; inset: 9px; border: 1px solid #b3aea6; border-radius: 50%; }
+#xray-trail { z-index: 110; }
+.hero { padding-top: 0; }
+.hero-image-wrap { background: #e9e3dc; }
+.hero-img { position: absolute; inset: 0; z-index: 2; object-fit: contain; padding: 100px 3vw 55px; mix-blend-mode: normal; pointer-events: none; }
+.hero:hover .hero-img { transform: none; }
+.hero-intro { position: absolute; z-index: 3; top: 112px; width: 100%; padding: 0 24px; text-align: center; font-family: var(--sans); font-size: .85rem; font-weight: 500; color: #4d4740; }
+.hero-title-wrap { display: contents; }
+.hero-title { position: absolute; z-index: 1; inset: 19% 0 auto; width: 100%; padding: 0 2vw; text-align: center; font-size: clamp(3rem, 10.3vw, 10.5rem); font-weight: 1000; line-height: .98; letter-spacing: -.065em; color: #c7beb3; mix-blend-mode: normal; }
+.hero .liquid-glass-btn { position: absolute; z-index: 3; bottom: 28px; left: 50%; transform: translateX(-50%); margin: 0; background: #f6f3eee8; color: #38332d; border-color: #ffffffc9; box-shadow: 0 3px 12px #30251b0c; backdrop-filter: blur(16px); }
+.hero .liquid-glass-btn:hover { transform: translateX(-50%) translateY(-2px); }
+.mc-info { opacity: 1; transform: none; }
+.mc-info-sub { color: #ffffffc9; }
+.works-label { color: #625c55; font-size: .75rem; }
+.cat-portrait { background: #d4cdc3; isolation: isolate; }
+.cat-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: url(#catChromatic); transform: scale(1.025); }
+.about-img-wrap.cat-portrait { aspect-ratio: 3/4; }
+html { scroll-padding-top: 110px; }
+@media (max-width: 640px) {
+  nav { top: 12px; height: 60px; border-radius: 22px; padding: 0 10px 0 16px; gap: 12px; }
+  .nav-right { gap: 14px; }
+  .nav-right a { font-size: .78rem; }
+  .nav-logo { font-size: .9rem; }
+  .orb-dock { flex-basis: 36px; height: 36px; }
+  .hero-intro { top: 96px; font-size: .73rem; }
+  .hero-title { top: 25%; font-size: 10.5vw; line-height: 1.06; }
+  .hero-img { padding: 145px 0 80px; }
+  .hero .liquid-glass-btn { bottom: 30px; }
+}
+@media (prefers-reduced-motion: reduce) { .cat-img { filter: none; } }
+
 </style>
 </head>
 <body>
@@ -220,6 +269,13 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 <!-- X-ray slime trail: goo filter + difference-blend overlay + extra grain -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <filter id="catChromatic" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red"/>
+      <feOffset id="catRed" in="red" dx="0.7" dy="0" result="redShift"/>
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" result="cyan"/>
+      <feOffset id="catCyan" in="cyan" dx="-0.7" dy="0" result="cyanShift"/>
+      <feBlend in="redShift" in2="cyanShift" mode="screen"/>
+    </filter>
     <filter id="xrayGoo">
       <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
       <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8"/>
@@ -229,13 +285,14 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 <div id="xray-trail"></div>
 <div class="grain-top"></div>
 
-<nav>
+<nav aria-label="Main navigation">
   <a href="#" class="nav-logo">John Du</a>
   <div class="nav-right">
     <a href="#works">Works</a>
     <a href="#about">About</a>
     <a href="mailto:hello@johnd.com">Contact</a>
   </div>
+  <div class="orb-dock" aria-hidden="true"><span></span></div>
 </nav>
 
 <div class="page">
@@ -243,10 +300,11 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
   <section class="hero" aria-label="Introduction">
     <div class="hero-image-wrap">
       <img src="assets/CU_FrontView92319.png" class="hero-img" alt="CatchUp hearing assist wearable and charging case">
+      <p class="hero-intro">John Du — Industrial &amp; Interaction Designer</p>
       <div class="hero-title-wrap">
         <h1 class="hero-title">
           Industrial Designer.<br>
-          <em>UI/UX Designer.</em><br>
+          UI/UX Designer.<br>
           Artist.
         </h1>
         <a href="#works" class="liquid-glass-btn">
@@ -297,9 +355,8 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
 
   <section class="about" id="about">
     <div class="about-left fi">
-      <div class="about-img-wrap">
-        <div class="about-img"></div>
-        <div class="about-img-caption">Studio · 2025</div>
+      <div class="about-img-wrap cat-portrait">
+        <img class="cat-img" src="assets/ink-cat.jpg" alt="A black kitten with amber eyes, rendered with film grain and subtle color fringes" loading="lazy" width="1086" height="1448">
       </div>
       <div class="about-name">John Du</div>
       <div class="about-role">Industrial Designer · Based in Champaign, IL</div>
@@ -358,7 +415,7 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
     softness: 8,      
     baseR: 14,        
     gooeyness: 9,     
-    fill: '#e4ddff'
+    fill: '#f1eee8'
   };
   // -----------------
 
@@ -369,18 +426,23 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
 
   var N = TRAIL.count, baseR = TRAIL.baseR;
   var ease = 0.30, k = 0.55 - (TRAIL.softness - 1) * (0.45 / 9);
-  var home = { x: innerWidth * 0.5, y: innerHeight * 0.82 };
+  var dock = document.querySelector('.orb-dock');
+  function dockCenter() {
+    var b = dock.getBoundingClientRect();
+    return { x: b.left + b.width / 2, y: b.top + b.height / 2 };
+  }
+  var home = dockCenter();
   var tx = home.x, ty = home.y, pts = [];
   var pointer = { x: -1000, y: -1000 };
   var following = false, dwellStart = null, releaseStart = null;
-  var armed = false;
+  var armed = false, pickupReady = true;
   var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   if (!canHover || reducedMotion.matches) { trail.hidden = true; return; }
   function resetDwell() { dwellStart = releaseStart = null; }
-  function park() { following = false; armed = false; resetDwell(); }
+  function park() { following = false; armed = false; pickupReady = false; resetDwell(); }
   window.addEventListener('resize', function () {
-    home.x = innerWidth * 0.5; home.y = innerHeight * 0.82; park();
+    home = dockCenter(); park();
   });
   window.addEventListener('blur', park);
   document.documentElement.addEventListener('pointerleave', function () {
@@ -407,7 +469,7 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
 
   function loop(now) {
     now = now || 0;
-    var inHome = Math.hypot(pointer.x - home.x, pointer.y - home.y) <= 68;
+    var inHome = Math.hypot(pointer.x - home.x, pointer.y - home.y) <= 22;
     if (following) {
       // Leave the pickup area before a return can release the trail.
       if (!inHome) armed = true;
@@ -416,7 +478,8 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
         if (now - releaseStart >= 500) park();
       } else releaseStart = null;
     } else {
-      var overTrail = pts.some(function (p) {
+      if (!inHome) pickupReady = true;
+      var overTrail = pickupReady && pts.some(function (p) {
         return Math.hypot(pointer.x - p.x, pointer.y - p.y) <= p.r + 12;
       });
       if (overTrail) {
@@ -424,8 +487,8 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
         if (now - dwellStart >= 500) { following = true; resetDwell(); }
       } else dwellStart = null;
     }
-    tx = following ? pointer.x : home.x + Math.sin(now * 0.0013) * 25;
-    ty = following ? pointer.y : home.y + Math.sin(now * 0.0026) * 12;
+    tx = following ? pointer.x : home.x + Math.sin(now * 0.0013) * 3;
+    ty = following ? pointer.y : home.y + Math.sin(now * 0.0026) * 2;
     pts[0].x += (tx - pts[0].x) * ease;
     pts[0].y += (ty - pts[0].y) * ease;
     for (var i = 1; i < N; i++) {
@@ -440,7 +503,30 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
   }
   loop();
 })();
+
+/* Local RGB channel split, driven by pointer position like SceneMood. */
+(function () {
+  var portrait = document.querySelector('.cat-portrait');
+  var red = document.getElementById('catRed'), cyan = document.getElementById('catCyan');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  var pending = false, x = .7, y = 0;
+  function paint() {
+    pending = false;
+    red.setAttribute('dx', x); red.setAttribute('dy', y);
+    cyan.setAttribute('dx', -x); cyan.setAttribute('dy', -y);
+  }
+  function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
+  portrait.addEventListener('pointermove', function (e) {
+    if (reduced.matches || e.pointerType === 'touch') return;
+    var b = portrait.getBoundingClientRect();
+    x = .7 + ((e.clientX - b.left) / b.width - .5) * 9;
+    y = ((e.clientY - b.top) / b.height - .5) * 4;
+    schedule();
+  });
+  portrait.addEventListener('pointerleave', function () { x = .7; y = 0; schedule(); });
+})();
 </script>
 
 </body>
 </html>
+
