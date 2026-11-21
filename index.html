@@ -15,25 +15,6 @@
 <div class="grain"></div>
 
 
-<!-- X-ray slime trail: goo filter + difference-blend overlay + extra grain -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <filter id="catChromatic" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-      <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="red"/>
-      <feOffset id="catRed" in="red" dx="1.8" dy="0" result="redShift"/>
-      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" result="cyan"/>
-      <feOffset id="catCyan" in="cyan" dx="-1.8" dy="0" result="cyanShift"/>
-      <feBlend in="redShift" in2="cyanShift" mode="screen" result="split"/>
-      <feGaussianBlur in="split" stdDeviation="2.2" result="glow"/>
-      <feComponentTransfer in="glow" result="softGlow"><feFuncA type="linear" slope=".3"/></feComponentTransfer>
-      <feMerge><feMergeNode in="softGlow"/><feMergeNode in="split"/></feMerge>
-    </filter>
-    <filter id="xrayGoo">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
-      <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8"/>
-    </filter>
-  </defs>
-</svg>
 <canvas id="xray-trail" aria-hidden="true"></canvas>
 <div class="grain-top"></div>
 
@@ -50,7 +31,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>
     <span class="rail-label">About</span>
   </a>
-  <a class="rail-link" href="mailto:hello@johnd.com">
+  <a class="rail-link" href="#contact">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3zM3 6l9 7 9-7"/></svg>
     <span class="rail-label">Contact</span>
   </a>
@@ -111,57 +92,59 @@
     </div>
   </section>
 
-  <section class="about" id="about">
-    <div class="about-left fi">
-      <div class="about-img-wrap cat-portrait mascot-portrait">
-        <svg class="mascot-art mascot-vector" viewBox="0 0 505 587" role="img" aria-labelledby="mascotTitle mascotDesc">
+  <section class="about" id="about" aria-labelledby="about-name">
+    <header class="about-identity fi">
+      <h2 class="about-name" id="about-name">John Du</h2>
+      <p class="about-role">Industrial Designer · Based in Palo Alto, California</p>
+    </header>
+    <div class="background-card fi">
+      <svg class="edge-mascot" viewBox="0 0 180 150" role="img" aria-labelledby="mascotTitle mascotDesc">
           <title id="mascotTitle">John's blue character</title>
-          <desc id="mascotDesc">A blue character built from circles and ellipses. Its eyes follow the pointer, it blinks, and its hands float gently.</desc>
+          <desc id="mascotDesc">A tiny blue character resting across the left edge of the Background card.</desc>
           <defs>
-            <clipPath id="eyeLeft"><ellipse cx="219" cy="155" rx="55" ry="65"/></clipPath>
-            <clipPath id="eyeRight"><ellipse cx="351" cy="158" rx="35" ry="49"/></clipPath>
+            <clipPath id="perchEyeLeft"><ellipse cx="57" cy="64" rx="14" ry="18"/></clipPath>
+            <clipPath id="perchEyeRight"><ellipse cx="85" cy="65" rx="10" ry="14"/></clipPath>
+            <filter id="mascotGrain" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" seed="8" result="noise"/>
+              <feColorMatrix in="noise" type="saturate" values="0"/>
+              <feComponentTransfer><feFuncA type="linear" slope=".1"/></feComponentTransfer>
+              <feComposite in2="SourceGraphic" operator="in" result="grain"/>
+              <feBlend in="SourceGraphic" in2="grain" mode="soft-light"/>
+            </filter>
           </defs>
-          <g filter="url(#catChromatic)">
-            <ellipse class="mascot-body" cx="252" cy="435" rx="169" ry="132" fill="#3531ed"/>
-            <g class="mascot-head">
-              <circle cx="251" cy="139" r="125" fill="#3531ed"/>
-              <g class="mascot-eye eye-left">
-                <ellipse cx="219" cy="155" rx="57" ry="67" fill="#08009a"/>
-                <ellipse cx="219" cy="155" rx="54" ry="64" fill="#f0efff"/>
-                <g clip-path="url(#eyeLeft)"><g class="mascot-pupil">
-                  <ellipse cx="217" cy="180" rx="53" ry="46" fill="#6344ef"/>
-                  <ellipse cx="217" cy="194" rx="46" ry="42" fill="#1100a5"/>
-                  <ellipse cx="221" cy="205" rx="18" ry="13" fill="#f0efff"/>
-                </g></g>
-              </g>
-              <g class="mascot-eye eye-right">
-                <ellipse cx="351" cy="158" rx="38" ry="52" fill="#08009a"/>
-                <ellipse cx="351" cy="158" rx="35" ry="49" fill="#f0efff"/>
-                <g clip-path="url(#eyeRight)"><g class="mascot-pupil">
-                  <ellipse cx="351" cy="176" rx="35" ry="36" fill="#6344ef"/>
-                  <ellipse cx="351" cy="187" rx="30" ry="32" fill="#1100a5"/>
-                  <ellipse cx="351" cy="195" rx="13" ry="9" fill="#f0efff"/>
-                </g></g>
+          <g filter="url(#mascotGrain)">
+            <ellipse cx="122" cy="79" rx="38" ry="23" fill="#3531ed" transform="rotate(-12 122 79)"/>
+            <circle cx="69" cy="57" r="40" fill="#3531ed"/>
+            <g class="perch-eye">
+              <ellipse cx="57" cy="64" rx="15" ry="19" fill="#08009a"/>
+              <ellipse cx="57" cy="64" rx="14" ry="18" fill="#f0efff"/>
+              <g clip-path="url(#perchEyeLeft)">
+                <ellipse cx="57" cy="73" rx="14" ry="13" fill="#6344ef"/>
+                <ellipse cx="57" cy="78" rx="12" ry="12" fill="#1100a5"/>
+                <ellipse cx="60" cy="80" rx="5" ry="4" fill="#f0efff"/>
               </g>
             </g>
-            <ellipse class="mascot-hand hand-left" cx="70" cy="316" rx="34" ry="24" fill="#3531ed"/>
-            <ellipse class="mascot-hand hand-right" cx="429" cy="309" rx="36" ry="28" fill="#3531ed"/>
+            <g class="perch-eye">
+              <ellipse cx="85" cy="65" rx="11" ry="15" fill="#08009a"/>
+              <ellipse cx="85" cy="65" rx="10" ry="14" fill="#f0efff"/>
+              <g clip-path="url(#perchEyeRight)">
+                <ellipse cx="85" cy="73" rx="10" ry="10" fill="#6344ef"/>
+                <ellipse cx="85" cy="77" rx="9" ry="9" fill="#1100a5"/>
+                <ellipse cx="87" cy="79" rx="4" ry="3" fill="#f0efff"/>
+              </g>
+            </g>
+            <ellipse cx="68" cy="104" rx="11" ry="15" fill="#3531ed" transform="rotate(14 68 104)"/>
+            <ellipse cx="111" cy="101" rx="11" ry="15" fill="#3531ed" transform="rotate(-12 111 101)"/>
           </g>
         </svg>
-      </div>
-      <div class="about-name">John Du</div>
-      <div class="about-role">Industrial Designer · Based in Champaign, IL</div>
-    </div>
-    <div class="about-right">
-      <div class="about-section fi">
-        <span class="about-section-label">Background</span>
-        <p>I design objects that are honest about their making. My work sits between industrial production and craft — things that could be made, that want to be touched, that age well.</p>
+      <h2 class="about-section-label">Background</h2>
+      <p>I design objects that are honest about their making. My work sits between industrial production and craft — things that could be made, that want to be touched, that age well.</p>
         <br>
-        <p>Currently based in Champaign, working across product development, concept design, and material research. Available for studios, brands, and independent commissions.</p>
-      </div>
-      <div class="about-section fi d1">
-        <span class="about-section-label">Expertise</span>
-        <ul class="exp-list">
+        <p>Currently based in Palo Alto, California, working across product development, concept design, and material research. Available for studios, brands, and independent commissions.</p>
+    </div>
+    <section class="expertise-section fi" aria-labelledby="expertise-heading">
+      <h2 class="about-section-label" id="expertise-heading">Expertise</h2>
+      <ul class="expertise-grid">
           <li>Product Design <span>Primary</span></li>
           <li>Furniture &amp; Object <span>Primary</span></li>
           <li>Material Research <span>Deep</span></li>
@@ -169,30 +152,30 @@
           <li>Prototyping / Fabrication <span>Strong</span></li>
           <li>Rhino · Keyshot · CAD <span>Strong</span></li>
         </ul>
-      </div>
-      <div class="about-section fi d2">
-        <span class="about-section-label">Contact</span>
-        <div class="contact-glass">
-          <a href="mailto:hello@johnd.com">john_du1527@hotmail.com</a>
+    </section>
+  </section>
+
+  <section class="contact-section fi" id="contact" aria-labelledby="contact-heading">
+    <h2 class="about-section-label" id="contact-heading">Contact</h2>
+    <div class="contact-links">
+          <a href="mailto:john_du1527@hotmail.com">john_du1527@hotmail.com</a>
           <a href="#">LinkedIn</a>
           <a href="#">Instagram</a>
           <a href="#">CV / Resume</a>
         </div>
-      </div>
-    </div>
   </section>
 
 </div>
 
 <footer>
   <span class="footer-copy">© 2026 John Du · All rights reserved</span>
-  <span class="footer-right">Made with material curiosity.</span>
 </footer>
 
 <script src="js/main.js" defer></script>
 
 </body>
 </html>
+
 
 
 

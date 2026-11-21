@@ -87,27 +87,3 @@ document.querySelectorAll('.fi').forEach(function(el) { obs.observe(el); });
   reduced.addEventListener('change',sync); fine.addEventListener('change',sync);
   sync();
 })();
-
-/* Local RGB channel split, driven by pointer position like SceneMood. */
-(function () {
-  var portrait = document.querySelector('.cat-portrait');
-  var red = document.getElementById('catRed'), cyan = document.getElementById('catCyan');
-  var reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  var pending = false, x = 1.8, y = 0;
-  function paint() {
-    pending = false;
-    red.setAttribute('dx', x); red.setAttribute('dy', y);
-    cyan.setAttribute('dx', -x); cyan.setAttribute('dy', -y);
-  }
-  function schedule() { if (!pending) { pending = true; requestAnimationFrame(paint); } }
-  portrait.addEventListener('pointermove', function (e) {
-    if (reduced.matches || e.pointerType === 'touch') return;
-    var b = portrait.getBoundingClientRect();
-    x = 1.8 + ((e.clientX - b.left) / b.width - .5) * 9;
-    y = ((e.clientY - b.top) / b.height - .5) * 4;
-    portrait.style.setProperty('--eye-x', (((e.clientX-b.left)/b.width-.5)*14).toFixed(2)+'px');
-    portrait.style.setProperty('--eye-y', (((e.clientY-b.top)/b.height-.5)*10).toFixed(2)+'px');
-    schedule();
-  });
-  portrait.addEventListener('pointerleave', function () { x = 1.8; y = 0; portrait.style.setProperty("--eye-x", "0px"); portrait.style.setProperty("--eye-y", "0px"); schedule(); });
-})();
